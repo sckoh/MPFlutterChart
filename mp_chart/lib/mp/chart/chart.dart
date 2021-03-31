@@ -35,22 +35,19 @@ abstract class ChartState<T extends Chart> extends State<T> {
   void capture() async {
     if (isCapturing) return;
     isCapturing = true;
-    String directory = "";
+    // String directory = "";
     if (Platform.isAndroid) {
-      directory = (await getExternalStorageDirectory()).path;
+      // directory = (await getExternalStorageDirectory()).path;
     } else if (Platform.isIOS) {
-      directory = (await getApplicationDocumentsDirectory()).path;
+      // directory = (await getApplicationDocumentsDirectory()).path;
     } else {
       return;
     }
 
-    String fileName = DateTime.now().toIso8601String();
-    String path = '$directory/$fileName.png';
-    _screenshotController.capture(path: path, pixelRatio: 3.0).then((imgFile) {
-      ImageGallerySaver.saveImage(Uint8List.fromList(imgFile.readAsBytesSync()))
-          .then((value) {
-        imgFile.delete();
-      });
+    // String fileName = DateTime.now().toIso8601String();
+    // String path = '$directory/$fileName.png';
+    _screenshotController.capture(pixelRatio: 3.0).then((imgFile) {
+      ImageGallerySaver.saveImage(imgFile);
       isCapturing = false;
     }).catchError((error) {
       isCapturing = false;
